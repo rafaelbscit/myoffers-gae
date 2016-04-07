@@ -1,5 +1,6 @@
 package br.com.battista.myoffers.controller;
 
+import br.com.battista.myoffers.constants.RestControllerConstant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -12,13 +13,17 @@ public class BaseController {
         return new ResponseEntity(body, httpStatus);
     }
 
+    public ResponseEntity buildResponseSuccess(HttpStatus httpStatus) {
+        return new ResponseEntity(httpStatus);
+    }
+
     public ResponseEntity buildResponseErro(HttpStatus httpStatus) {
         return new ResponseEntity(httpStatus);
     }
 
     public ResponseEntity buildResponseErro(String cause, HttpStatus httpStatus) {
         Map<String, String> body = new HashMap<String, String>();
-        body.put("cause", cause);
+        body.put(RestControllerConstant.BODY_ERRO, cause);
         return new ResponseEntity(body, HttpStatus.BAD_REQUEST);
     }
 
