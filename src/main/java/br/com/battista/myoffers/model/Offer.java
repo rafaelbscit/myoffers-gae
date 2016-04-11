@@ -1,6 +1,6 @@
 package br.com.battista.myoffers.model;
 
-import com.google.appengine.repackaged.com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -32,9 +32,7 @@ public class Offer extends BaseEntity implements Serializable {
     private Double price;
     private String brand;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+    private Long codeProduct;
 
     public Long getId() {
         return id;
@@ -115,19 +113,25 @@ public class Offer extends BaseEntity implements Serializable {
         return this;
     }
 
+    public Long getCodeProduct() {
+        return codeProduct;
+    }
+
+    public void setCodeProduct(Long codeProduct) {
+        this.codeProduct = codeProduct;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Offer)) return false;
         Offer offer = (Offer) o;
-        return Objects.equal(getName(), offer.getName()) &&
-                Objects.equal(getCategory(), offer.getCategory()) &&
-                Objects.equal(getVendor(), offer.getVendor());
+        return Objects.equal(getCodeProduct(), offer.getCodeProduct());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getName(), getCategory(), getVendor());
+        return Objects.hashCode(getCodeProduct());
     }
 
     @Override
@@ -139,11 +143,17 @@ public class Offer extends BaseEntity implements Serializable {
                 .add("vendor", vendor)
                 .add("price", price)
                 .add("brand", brand)
+                .add("codeProduct", codeProduct)
                 .toString();
     }
 
     @Override
     public Object getPk() {
         return getId();
+    }
+
+    public Offer codeProduct(Long codeProduct) {
+        this.codeProduct = codeProduct;
+        return this;
     }
 }
