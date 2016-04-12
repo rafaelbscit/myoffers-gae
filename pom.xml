@@ -11,7 +11,7 @@
 
     <properties>
         <app.id>myoffers-gae</app.id>
-        <app.version>1.1.0</app.version>
+        <app.version>1</app.version>
         <appengine.version>1.9.34</appengine.version>
         <org.springframework-version>3.2.16.RELEASE</org.springframework-version>
         <gcloud.plugin.version>2.0.9.74.v20150814</gcloud.plugin.version>

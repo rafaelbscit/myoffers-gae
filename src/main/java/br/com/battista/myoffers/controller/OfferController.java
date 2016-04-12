@@ -50,7 +50,7 @@ public class OfferController extends BaseController {
                 .list();
     }
 
-    @RequestMapping(value = "/{codeProduct}", method = RequestMethod.GET,
+    @RequestMapping(value = "/product/{codeProduct}", method = RequestMethod.GET,
             produces = RestControllerConstant.PRODUCES)
     @ResponseBody
     public ResponseEntity<Offer> getByCodeProduct(@PathVariable("codeProduct") Long codeProduct) {
