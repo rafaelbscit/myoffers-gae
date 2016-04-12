@@ -21,14 +21,19 @@ public class BaseController {
         return new ResponseEntity(httpStatus);
     }
 
-    public ResponseEntity buildResponseErro(String cause, HttpStatus httpStatus) {
+    public ResponseEntity buildResponseErro(String cause) {
         Map<String, String> body = new HashMap<String, String>();
         body.put(RestControllerConstant.BODY_ERRO, cause);
         return new ResponseEntity(body, HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity buildResponseErro(Throwable cause, HttpStatus httpStatus) {
-        return buildResponseErro(cause.getMessage(), httpStatus);
+        if (cause == null) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Map<String, String> body = new HashMap<String, String>();
+        body.put(RestControllerConstant.BODY_ERRO, cause.getLocalizedMessage());
+        return new ResponseEntity(body, httpStatus);
     }
 
 }

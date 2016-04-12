@@ -32,6 +32,8 @@ public class Offer extends BaseEntity implements Serializable {
     private Double price;
     private String brand;
 
+    @NotNull
+    @Index
     private Long codeProduct;
 
     public Long getId() {

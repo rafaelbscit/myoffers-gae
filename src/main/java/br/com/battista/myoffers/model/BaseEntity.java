@@ -57,4 +57,9 @@ public abstract class BaseEntity implements Serializable {
         version = EntityConstant.DEFAULT_VERSION;
     }
 
+    public void updateEntity() {
+        updatedAt = new Date();
+        version++;
+    }
+
 }
