@@ -53,7 +53,7 @@ public class OfferController extends BaseController {
     @RequestMapping(value = "/{codeProduct}", method = RequestMethod.GET,
             produces = RestControllerConstant.PRODUCES)
     @ResponseBody
-    public ResponseEntity<Offer> getByCodeProduct(@RequestParam Long codeProduct) {
+    public ResponseEntity<Offer> getByCodeProduct(@PathVariable("codeProduct") Long codeProduct) {
 
         LOGGER.info("Retrieve offer by code product:{}!", codeProduct);
         Offer offer = findByCodeProduct(codeProduct);
