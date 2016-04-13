@@ -79,7 +79,7 @@ public class OfferController extends BaseController {
     @RequestMapping(value = "/", method = RequestMethod.POST,
             produces = RestControllerConstant.PRODUCES, consumes = RestControllerConstant.CONSUMES)
     @ResponseBody
-    public ResponseEntity save(@RequestBody Offer offer) {
+    public ResponseEntity<Offer> save(@RequestBody Offer offer) {
 
         if (offer == null || offer.getCodeProduct() == null) {
             LOGGER.debug("Offer can not be null!");
@@ -110,7 +110,7 @@ public class OfferController extends BaseController {
 
             saveEntity(offer);
             LOGGER.debug("Save offer and generate to id: {}!", offer.getId());
-            return buildResponseSuccess(HttpStatus.OK);
+            return buildResponseSuccess(offer, HttpStatus.OK);
         } catch (SaveException ex) {
             LOGGER.debug("Error to save offer, cause:{}!", ex.getLocalizedMessage());
             return buildResponseErro(ex, HttpStatus.INTERNAL_SERVER_ERROR);
