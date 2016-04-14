@@ -56,6 +56,9 @@ $ mvn appengine:update
 
 ## License
 
-MIT
+GNU GENERAL PUBLIC LICENSE
+
+
+
 
 **Free Source Code, Hell Yeah!**
