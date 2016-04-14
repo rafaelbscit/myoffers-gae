@@ -22,7 +22,6 @@
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <objectify.version>5.1.12</objectify.version>
         <hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
-        <guava.version>18.0</guava.version>
         <servlet-api.version>2.5</servlet-api.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.12</junit.version>
