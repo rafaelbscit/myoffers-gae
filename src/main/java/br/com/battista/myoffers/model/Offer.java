@@ -2,12 +2,11 @@ package br.com.battista.myoffers.model;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
-import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,6 +18,8 @@ import java.util.List;
 
 @XmlRootElement
 @Entity
+@JsonAutoDetect
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Offer extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,7 +35,7 @@ public class Offer extends BaseEntity implements Serializable {
     private String category;
 
     @Ignore
-    private List<Vendor> vendors = new ArrayList<Vendor>();
+    private List<Vendor> vendors;
 
     @Ignore
     private Double averagePrice;

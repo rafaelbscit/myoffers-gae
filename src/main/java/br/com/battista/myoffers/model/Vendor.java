@@ -3,12 +3,16 @@ package br.com.battista.myoffers.model;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Entity
+@JsonAutoDetect
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Vendor extends BaseEntity {
 
     @Id
