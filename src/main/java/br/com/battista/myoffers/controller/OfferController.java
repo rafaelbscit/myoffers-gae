@@ -51,7 +51,6 @@ public class OfferController extends BaseController {
                 .load()
                 .type(Offer.class)
                 .order("-updatedAt")
-                .limit(100)
                 .list();
     }
 
