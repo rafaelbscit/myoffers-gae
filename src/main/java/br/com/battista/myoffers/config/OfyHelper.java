@@ -1,12 +1,12 @@
 /**
  * Copyright 2014-2015 Google Inc. All Rights Reserved.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,7 @@
 package br.com.battista.myoffers.config;
 
 import br.com.battista.myoffers.model.Offer;
+import br.com.battista.myoffers.model.Vendor;
 import com.googlecode.objectify.ObjectifyService;
 
 import javax.servlet.ServletContextEvent;
@@ -27,17 +28,18 @@ import javax.servlet.ServletContextListener;
  * required to let JSP's access Ofy.
  **/
 public class OfyHelper implements ServletContextListener {
-  public static void register() {
-    ObjectifyService.register(Offer.class);
-  }
+    public static void register() {
+        ObjectifyService.register(Offer.class);
+        ObjectifyService.register(Vendor.class);
+    }
 
-  public void contextInitialized(ServletContextEvent event) {
-    // This will be invoked as part of a warmup request, or the first user
-    // request if no warmup request was invoked.
-    register();
-  }
+    public void contextInitialized(ServletContextEvent event) {
+        // This will be invoked as part of a warmup request, or the first user
+        // request if no warmup request was invoked.
+        register();
+    }
 
-  public void contextDestroyed(ServletContextEvent event) {
-    // App Engine does not currently invoke this method.
-  }
+    public void contextDestroyed(ServletContextEvent event) {
+        // App Engine does not currently invoke this method.
+    }
 }

@@ -2,6 +2,7 @@ package br.com.battista.myoffers.controller;
 
 import br.com.battista.myoffers.constants.RestControllerConstant;
 import br.com.battista.myoffers.model.Offer;
+import br.com.battista.myoffers.model.Vendor;
 import br.com.battista.myoffers.utils.MergeBean;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
@@ -34,6 +35,10 @@ public class OfferController extends BaseController {
             LOGGER.debug("No offers founds!");
             return buildResponseErro(HttpStatus.NO_CONTENT);
         } else {
+            for (Offer offer : offers) {
+                offer.setVendors(findVendorByCodeProduct(offer.getCodeProduct()));
+            }
+
             LOGGER.debug("Found {} offers!", offers.size());
             return buildResponseSuccess(offers, HttpStatus.OK);
         }
@@ -62,12 +67,23 @@ public class OfferController extends BaseController {
             LOGGER.debug("No offer found!");
             return buildResponseErro(HttpStatus.NO_CONTENT);
         } else {
+            offer.setVendors(findVendorByCodeProduct(offer.getCodeProduct()));
+
             LOGGER.debug("Found offer with id {}!", offer.getId());
             return buildResponseSuccess(offer, HttpStatus.OK);
         }
     }
 
-    private Offer findByCodeProduct(@RequestParam Long codeProduct) {
+    private List<Vendor> findVendorByCodeProduct(Long codeProduct) {
+        return ObjectifyService.ofy()
+                .load()
+                .type(Vendor.class)
+                .filter("codeProduct", codeProduct)
+                .order("-updatedAt")
+                .list();
+    }
+
+    private Offer findByCodeProduct(Long codeProduct) {
         return ObjectifyService.ofy()
                 .load()
                 .type(Offer.class)
@@ -109,6 +125,7 @@ public class OfferController extends BaseController {
             }
 
             saveEntity(offer);
+            offer.setVendors(findVendorByCodeProduct(offer.getCodeProduct()));
             LOGGER.debug("Save offer and generate to id: {}!", offer.getId());
             return buildResponseSuccess(offer, HttpStatus.OK);
         } catch (SaveException ex) {
@@ -151,6 +168,7 @@ public class OfferController extends BaseController {
             }
 
             saveEntity(offer);
+            offer.setVendors(findVendorByCodeProduct(offer.getCodeProduct()));
             LOGGER.debug("update offer with id: {}!", offer.getId());
             return buildResponseSuccess(HttpStatus.OK);
         } catch (SaveException ex) {

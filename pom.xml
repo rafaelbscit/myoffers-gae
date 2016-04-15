@@ -33,6 +33,7 @@
         <maven-war-plugin.version>2.6</maven-war-plugin.version>
         <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
         <guava.version>19.0</guava.version>
+        <commons-collections4.version>4.1</commons-collections4.version>
     </properties>
 
     <prerequisites>
@@ -166,6 +167,12 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

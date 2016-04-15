@@ -4,12 +4,18 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @XmlRootElement
 @Entity
@@ -26,11 +32,17 @@ public class Offer extends BaseEntity implements Serializable {
     @Index
     @NotNull
     private String category;
-    @Index
-    @NotNull
-    private String vendor;
-    private Double price;
+
+    @Ignore
+    private List<Vendor> vendors = new ArrayList<Vendor>();
+
+    @Ignore
+    private Double averagePrice;
+
     private String brand;
+
+    private Boolean revise = Boolean.FALSE;
+    private Boolean denounce = Boolean.FALSE;
 
     @NotNull
     @Index
@@ -52,20 +64,46 @@ public class Offer extends BaseEntity implements Serializable {
         this.category = category;
     }
 
-    public String getVendor() {
-        return vendor;
+    public Double getAveragePrice() {
+        if (vendors != null && !vendors.isEmpty()) {
+            averagePrice = caluleteAveragePrice(vendors);
+        }
+        return averagePrice;
     }
 
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
+    private Double caluleteAveragePrice(List<Vendor> vendors) {
+        if (CollectionUtils.isEmpty(vendors)) {
+            return 0d;
+        }
+
+        List<Vendor> vendorsSum = new ArrayList<>(vendors);
+
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -30);
+
+        CollectionUtils.filter(vendorsSum, new Predicate<Vendor>() {
+            @Override
+            public boolean evaluate(Vendor vendor) {
+                if (vendor == null || vendor.getUpdatedAt() == null || vendor.getPrice() == null) {
+                    return Boolean.FALSE;
+                }
+                return vendor.getUpdatedAt().getTime() >= calendar.getTimeInMillis();
+            }
+        });
+
+        if (vendorsSum.isEmpty()) {
+            return vendors.get(0).getPrice();
+        } else {
+            Double averagePrice = 0d;
+            for (Vendor vendor : vendorsSum) {
+                averagePrice += vendor.getPrice();
+            }
+            return averagePrice / vendorsSum.size();
+        }
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setAveragePrice(Double averagePrice) {
+        this.averagePrice = averagePrice;
     }
 
     public String getBrand() {
@@ -85,6 +123,30 @@ public class Offer extends BaseEntity implements Serializable {
     }
 
 
+    public List<Vendor> getVendors() {
+        return vendors;
+    }
+
+    public void setVendors(List<Vendor> vendors) {
+        this.vendors = vendors;
+    }
+
+    public Boolean getRevise() {
+        return revise;
+    }
+
+    public void setRevise(Boolean revise) {
+        this.revise = revise;
+    }
+
+    public Boolean getDenounce() {
+        return denounce;
+    }
+
+    public void setDenounce(Boolean denounce) {
+        this.denounce = denounce;
+    }
+
     public Offer id(Long id) {
         this.id = id;
         return this;
@@ -100,13 +162,8 @@ public class Offer extends BaseEntity implements Serializable {
         return this;
     }
 
-    public Offer vendor(String vendor) {
-        this.vendor = vendor;
-        return this;
-    }
-
-    public Offer price(Double price) {
-        this.price = price;
+    public Offer averagePrice(Double averagePrice) {
+        this.averagePrice = averagePrice;
         return this;
     }
 
@@ -114,6 +171,7 @@ public class Offer extends BaseEntity implements Serializable {
         this.brand = brand;
         return this;
     }
+
 
     public Long getCodeProduct() {
         return codeProduct;
@@ -142,9 +200,11 @@ public class Offer extends BaseEntity implements Serializable {
                 .add("id", id)
                 .add("name", name)
                 .add("category", category)
-                .add("vendor", vendor)
-                .add("price", price)
+                .add("vendors", vendors)
+                .add("averagePrice", averagePrice)
                 .add("brand", brand)
+                .add("revise", revise)
+                .add("denounce", denounce)
                 .add("codeProduct", codeProduct)
                 .toString();
     }
@@ -156,6 +216,21 @@ public class Offer extends BaseEntity implements Serializable {
 
     public Offer codeProduct(Long codeProduct) {
         this.codeProduct = codeProduct;
+        return this;
+    }
+
+    public Offer revise(Boolean revise) {
+        this.revise = revise;
+        return this;
+    }
+
+    public Offer denounce(Boolean denounce) {
+        this.denounce = denounce;
+        return this;
+    }
+
+    public Offer vendors(List<Vendor> vendors) {
+        this.vendors = vendors;
         return this;
     }
 }
