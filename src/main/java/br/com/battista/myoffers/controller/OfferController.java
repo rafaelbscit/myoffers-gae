@@ -54,6 +54,38 @@ public class OfferController extends BaseController {
                 .list();
     }
 
+    @RequestMapping(value = "/revise/", method = RequestMethod.GET,
+            produces = RestControllerConstant.PRODUCES)
+    @ResponseBody
+    public ResponseEntity<List<Offer>> getAllRevised() {
+
+        LOGGER.info("Retrieve all offers with pending revise!");
+        List<Offer> offers = findAllRevised();
+
+        if (offers == null || offers.isEmpty()) {
+            LOGGER.debug("No offers founds with pending revise!");
+            return buildResponseErro(HttpStatus.NO_CONTENT);
+        } else {
+            for (Offer offer : offers) {
+                offer.setVendors(findVendorByCodeProduct(offer.getCodeProduct()));
+            }
+
+            LOGGER.debug("Found {} offers with pending revise!", offers.size());
+            return buildResponseSuccess(offers, HttpStatus.OK);
+        }
+    }
+
+    private List<Offer> findAllRevised() {
+        Objectify objectify = ObjectifyService.ofy();
+        objectify.flush();
+        return objectify
+                .load()
+                .type(Offer.class)
+                .filter("revise", true)
+                .order("-updatedAt")
+                .list();
+    }
+
     @RequestMapping(value = "/product/{codeProduct}", method = RequestMethod.GET,
             produces = RestControllerConstant.PRODUCES)
     @ResponseBody

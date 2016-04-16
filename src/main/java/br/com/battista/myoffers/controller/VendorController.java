@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 
 @Controller
 @RequestMapping("api/v1/vendor/")
@@ -40,7 +42,7 @@ public class VendorController extends BaseController {
     }
 
     private List<Vendor> findAll() {
-        Objectify objectify = ObjectifyService.ofy();
+        Objectify objectify = ofy();
         objectify.flush();
         return objectify
                 .load()
@@ -66,8 +68,32 @@ public class VendorController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
+            produces = RestControllerConstant.PRODUCES)
+    @ResponseBody
+    public ResponseEntity deleteById(@PathVariable("id") Long id) {
+
+        LOGGER.info("Find vendor by id:{}!", id);
+        Vendor vendor = ObjectifyService.ofy()
+                .load()
+                .type(Vendor.class)
+                .id(id)
+                .now();
+
+        if (vendor == null) {
+            LOGGER.debug("No vendor found!");
+            return buildResponseErro(HttpStatus.NOT_FOUND);
+        } else {
+            LOGGER.info("Delete vendor by id:{}!", id);
+            ObjectifyService.ofy().delete().entity(vendor).now();
+
+            LOGGER.debug("Deleted vendor!");
+            return buildResponseSuccess(HttpStatus.OK);
+        }
+    }
+
     private List<Vendor> findByCodeProduct(Long codeProduct) {
-        return ObjectifyService.ofy()
+        return ofy()
                 .load()
                 .type(Vendor.class)
                 .filter("codeProduct", codeProduct)
@@ -141,7 +167,7 @@ public class VendorController extends BaseController {
     }
 
     private Vendor findById(long id) {
-        return ObjectifyService.ofy()
+        return ofy()
                 .load()
                 .type(Vendor.class)
                 .filter("id", id)
@@ -157,7 +183,7 @@ public class VendorController extends BaseController {
     }
 
     private void saveEntity(@RequestBody Vendor vendor) {
-        ObjectifyService.ofy()
+        ofy()
                 .save()
                 .entity(vendor)
                 .now();
