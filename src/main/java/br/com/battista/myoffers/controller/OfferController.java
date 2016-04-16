@@ -67,7 +67,7 @@ public class OfferController extends BaseController {
             return buildResponseErro(HttpStatus.NO_CONTENT);
         } else {
             for (Offer offer : offers) {
-                offer.setVendors(findVendorByCodeProduct(offer.getCodeProduct()));
+                offer.setVendors(null);
             }
 
             LOGGER.debug("Found {} offers with pending revise!", offers.size());
