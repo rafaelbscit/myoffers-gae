@@ -24,8 +24,10 @@ public class Vendor extends BaseEntity {
     @NotNull
     private String vendor;
 
+    @Index
     private String state;
 
+    @Index
     private String city;
 
     @NotNull

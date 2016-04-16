@@ -40,13 +40,18 @@ public class Offer extends BaseEntity implements Serializable {
     @Ignore
     private Double averagePrice;
 
+    @Index
+    @NotNull
     private String brand;
 
+    @Index
     private Boolean revise = Boolean.FALSE;
+
+    @Index
     private Boolean denounce = Boolean.FALSE;
 
-    @NotNull
     @Index
+    @NotNull
     private Long codeProduct;
 
     public Long getId() {

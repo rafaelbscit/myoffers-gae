@@ -13,10 +13,11 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseEntity implements Serializable {
 
-    @Index
     private Date createdAt;
+
     @Index
     private Date updatedAt;
+    @Index
     private Long version;
 
     @JsonIgnore
