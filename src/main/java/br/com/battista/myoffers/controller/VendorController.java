@@ -113,7 +113,11 @@ public class VendorController extends BaseController {
 
         LOGGER.info("Save to vendor[{}]!", vendor);
         try {
-            vendor.initEntity();
+            if (vendor.getVersion() != null) {
+                vendor.updateEntity();
+            } else {
+                vendor.initEntity();
+            }
             saveEntity(vendor);
             LOGGER.debug("Save vendor and generate to id: {}!", vendor.getId());
             return buildResponseSuccess(vendor, HttpStatus.OK);
