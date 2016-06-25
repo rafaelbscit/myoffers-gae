@@ -1,10 +1,11 @@
 package br.com.battista.myoffers.utils;
 
-import br.com.battista.myoffers.model.Offer;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import org.junit.*;
+
+import br.com.battista.myoffers.model.Offer;
 
 /**
  * Created by rabsouza on 12/04/16.

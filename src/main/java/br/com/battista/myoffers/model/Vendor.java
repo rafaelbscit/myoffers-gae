@@ -1,15 +1,16 @@
 package br.com.battista.myoffers.model;
 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Entity
@@ -54,12 +55,12 @@ public class Vendor extends BaseEntity {
         return vendor;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
     public void setVendor(String vendor) {
         this.vendor = vendor;
+    }
+
+    public Double getPrice() {
+        return price;
     }
 
     public void setPrice(Double price) {
@@ -80,7 +81,7 @@ public class Vendor extends BaseEntity {
         if (!(o instanceof Vendor)) return false;
         Vendor vendor1 = (Vendor) o;
         return Objects.equal(getVendor(), vendor1.getVendor()) &&
-                Objects.equal(getCodeProduct(), vendor1.getCodeProduct());
+                       Objects.equal(getCodeProduct(), vendor1.getCodeProduct());
     }
 
     @Override
@@ -91,13 +92,13 @@ public class Vendor extends BaseEntity {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("vendor", vendor)
-                .add("state", state)
-                .add("city", city)
-                .add("price", price)
-                .add("codeProduct", codeProduct)
-                .toString();
+                       .add("id", id)
+                       .add("vendor", vendor)
+                       .add("state", state)
+                       .add("city", city)
+                       .add("price", price)
+                       .add("codeProduct", codeProduct)
+                       .toString();
     }
 
     public Vendor id(Long id) {

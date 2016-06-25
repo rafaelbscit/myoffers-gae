@@ -1,17 +1,21 @@
 package br.com.battista.myoffers.model;
 
-import br.com.battista.myoffers.constants.EntityConstant;
-import com.googlecode.objectify.annotation.Index;
+import java.io.Serializable;
+import java.util.Date;
+
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.googlecode.objectify.annotation.Index;
+
+import br.com.battista.myoffers.constants.EntityConstant;
 
 @JsonAutoDetect
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Date createdAt;
 

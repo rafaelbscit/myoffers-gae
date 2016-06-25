@@ -1,11 +1,9 @@
 package br.com.battista.myoffers.controller;
 
-import br.com.battista.myoffers.constants.RestControllerConstant;
-import br.com.battista.myoffers.model.Vendor;
-import br.com.battista.myoffers.utils.MergeBean;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.SaveException;
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,9 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.SaveException;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
+import br.com.battista.myoffers.constants.RestControllerConstant;
+import br.com.battista.myoffers.model.Vendor;
+import br.com.battista.myoffers.utils.MergeBean;
 
 
 @Controller
@@ -45,10 +47,10 @@ public class VendorController extends BaseController {
         Objectify objectify = ofy();
         objectify.flush();
         return objectify
-                .load()
-                .type(Vendor.class)
-                .order("-updatedAt")
-                .list();
+                       .load()
+                       .type(Vendor.class)
+                       .order("-updatedAt")
+                       .list();
     }
 
     @RequestMapping(value = "/product/{codeProduct}", method = RequestMethod.GET,
@@ -75,10 +77,10 @@ public class VendorController extends BaseController {
 
         LOGGER.info("Find vendor by id:{}!", id);
         Vendor vendor = ObjectifyService.ofy()
-                .load()
-                .type(Vendor.class)
-                .id(id)
-                .now();
+                                .load()
+                                .type(Vendor.class)
+                                .id(id)
+                                .now();
 
         if (vendor == null) {
             LOGGER.debug("No vendor found!");
@@ -94,11 +96,11 @@ public class VendorController extends BaseController {
 
     private List<Vendor> findByCodeProduct(Long codeProduct) {
         return ofy()
-                .load()
-                .type(Vendor.class)
-                .filter("codeProduct", codeProduct)
-                .order("-updatedAt")
-                .list();
+                       .load()
+                       .type(Vendor.class)
+                       .filter("codeProduct", codeProduct)
+                       .order("-updatedAt")
+                       .list();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
@@ -146,7 +148,7 @@ public class VendorController extends BaseController {
                 try {
                     if (!vendorEntity.getVersion().equals(vendor.getVersion())) {
                         String cause = "There is already an vendor object registered with different version!" +
-                                " Please update your object!";
+                                               " Please update your object!";
                         LOGGER.debug(cause);
                         return buildResponseErro(cause);
                     }
@@ -172,11 +174,11 @@ public class VendorController extends BaseController {
 
     private Vendor findById(long id) {
         return ofy()
-                .load()
-                .type(Vendor.class)
-                .filter("id", id)
-                .first()
-                .now();
+                       .load()
+                       .type(Vendor.class)
+                       .filter("id", id)
+                       .first()
+                       .now();
     }
 
     private Vendor mergeEntity(@RequestBody Vendor vendor, Vendor vendorEntity) throws Exception {

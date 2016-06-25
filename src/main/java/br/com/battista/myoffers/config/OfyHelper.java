@@ -16,12 +16,13 @@
 
 package br.com.battista.myoffers.config;
 
-import br.com.battista.myoffers.model.Offer;
-import br.com.battista.myoffers.model.Vendor;
-import com.googlecode.objectify.ObjectifyService;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import com.googlecode.objectify.ObjectifyService;
+
+import br.com.battista.myoffers.model.Offer;
+import br.com.battista.myoffers.model.Vendor;
 
 /**
  * OfyHelper, a ServletContextListener, is setup in web.xml to run before a JSP is run.  This is

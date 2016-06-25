@@ -1,12 +1,7 @@
 package br.com.battista.myoffers.controller;
 
-import br.com.battista.myoffers.constants.RestControllerConstant;
-import br.com.battista.myoffers.model.Offer;
-import br.com.battista.myoffers.model.Vendor;
-import br.com.battista.myoffers.utils.MergeBean;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.SaveException;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,7 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.SaveException;
+
+import br.com.battista.myoffers.constants.RestControllerConstant;
+import br.com.battista.myoffers.model.Offer;
+import br.com.battista.myoffers.model.Vendor;
+import br.com.battista.myoffers.utils.MergeBean;
 
 
 @Controller
@@ -48,10 +50,10 @@ public class OfferController extends BaseController {
         Objectify objectify = ObjectifyService.ofy();
         objectify.flush();
         return objectify
-                .load()
-                .type(Offer.class)
-                .order("-updatedAt")
-                .list();
+                       .load()
+                       .type(Offer.class)
+                       .order("-updatedAt")
+                       .list();
     }
 
     @RequestMapping(value = "/revise/", method = RequestMethod.GET,
@@ -79,11 +81,11 @@ public class OfferController extends BaseController {
         Objectify objectify = ObjectifyService.ofy();
         objectify.flush();
         return objectify
-                .load()
-                .type(Offer.class)
-                .filter("revise", true)
-                .order("-updatedAt")
-                .list();
+                       .load()
+                       .type(Offer.class)
+                       .filter("revise", true)
+                       .order("-updatedAt")
+                       .list();
     }
 
     @RequestMapping(value = "/product/{codeProduct}", method = RequestMethod.GET,
@@ -107,20 +109,20 @@ public class OfferController extends BaseController {
 
     private List<Vendor> findVendorByCodeProduct(Long codeProduct) {
         return ObjectifyService.ofy()
-                .load()
-                .type(Vendor.class)
-                .filter("codeProduct", codeProduct)
-                .order("-updatedAt")
-                .list();
+                       .load()
+                       .type(Vendor.class)
+                       .filter("codeProduct", codeProduct)
+                       .order("-updatedAt")
+                       .list();
     }
 
     private Offer findByCodeProduct(Long codeProduct) {
         return ObjectifyService.ofy()
-                .load()
-                .type(Offer.class)
-                .filter("codeProduct", codeProduct)
-                .first()
-                .now();
+                       .load()
+                       .type(Offer.class)
+                       .filter("codeProduct", codeProduct)
+                       .first()
+                       .now();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
@@ -141,7 +143,7 @@ public class OfferController extends BaseController {
                 try {
                     if (!offerEntity.getVersion().equals(offer.getVersion())) {
                         String cause = "There is already an offer object registered with different version!" +
-                                " Please update your object!";
+                                               " Please update your object!";
                         LOGGER.debug(cause);
                         return buildResponseErro(cause);
                     }
@@ -184,7 +186,7 @@ public class OfferController extends BaseController {
                 try {
                     if (!offerEntity.getVersion().equals(offer.getVersion())) {
                         String cause = "There is already an offer object registered with different version!" +
-                                " Please update your object!";
+                                               " Please update your object!";
                         LOGGER.debug(cause);
                         return buildResponseErro(cause);
                     }

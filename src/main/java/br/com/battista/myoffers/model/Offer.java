@@ -1,20 +1,25 @@
 package br.com.battista.myoffers.model;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.googlecode.objectify.annotation.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
+import com.googlecode.objectify.annotation.Index;
 
 @XmlRootElement
 @Entity
@@ -77,6 +82,10 @@ public class Offer extends BaseEntity implements Serializable {
         return averagePrice;
     }
 
+    public void setAveragePrice(Double averagePrice) {
+        this.averagePrice = averagePrice;
+    }
+
     private Double caluleteAveragePrice(List<Vendor> vendors) {
         if (CollectionUtils.isEmpty(vendors)) {
             return 0d;
@@ -106,10 +115,6 @@ public class Offer extends BaseEntity implements Serializable {
             }
             return averagePrice / vendorsSum.size();
         }
-    }
-
-    public void setAveragePrice(Double averagePrice) {
-        this.averagePrice = averagePrice;
     }
 
     public String getBrand() {
@@ -203,16 +208,16 @@ public class Offer extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("name", name)
-                .add("category", category)
-                .add("vendors", vendors)
-                .add("averagePrice", averagePrice)
-                .add("brand", brand)
-                .add("revise", revise)
-                .add("denounce", denounce)
-                .add("codeProduct", codeProduct)
-                .toString();
+                       .add("id", id)
+                       .add("name", name)
+                       .add("category", category)
+                       .add("vendors", vendors)
+                       .add("averagePrice", averagePrice)
+                       .add("brand", brand)
+                       .add("revise", revise)
+                       .add("denounce", denounce)
+                       .add("codeProduct", codeProduct)
+                       .toString();
     }
 
     @Override

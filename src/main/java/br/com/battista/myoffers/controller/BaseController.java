@@ -1,11 +1,12 @@
 package br.com.battista.myoffers.controller;
 
-import br.com.battista.myoffers.constants.RestControllerConstant;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
-import java.util.Map;
+import br.com.battista.myoffers.constants.RestControllerConstant;
 
 public class BaseController {
 
